@@ -34,11 +34,4 @@ public class Person {
         this.firstName = firstName;
     }
 
-    public void changeInfo(Person person) {
-        person.setFirstName(person.getFirstName());
-        person.setLastName(person.getLastName());
-        person.setPhoneNumber(person.getPhoneNumber());
-
-    }
-
 }

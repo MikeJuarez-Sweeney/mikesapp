@@ -11,7 +11,6 @@ public class NameController {
 
     private NameService nameService = new NameService();
 
-
     @GetMapping(value = "/")
     public ResponseEntity<String> getAllPersons() {
         return nameService.getPersonList();
@@ -28,12 +27,13 @@ public class NameController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> updatePerson(@PathVariable int id, @RequestBody Person person) {
+    public ResponseEntity<String> updatePerson(@PathVariable int id,
+                                               @RequestBody Person person) {
         return nameService.updatePerson(id, person);
     }
 
-    @DeleteMapping(value = "/")
-    public ResponseEntity<String> deletePerson(@RequestBody int id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deletePerson(@PathVariable int id) {
         return nameService.deletePerson(id);
     }
 

@@ -12,31 +12,23 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class NameService {
 
-    private String url = "Http://localhost:8081/";
-    //private String url1 = "Http://localhost:8081/";
+    private String url = "http://localhost:8081/";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private RestTemplate template = new RestTemplate();
 
     public ResponseEntity<String> getPersonList() {
 
-        RestTemplate template = new RestTemplate();
-
-        ResponseEntity<String> response = template.exchange(url, HttpMethod.GET, null, String.class);
-        return response;
+        return template.exchange(url, HttpMethod.GET, null, String.class);
     }
 
     public ResponseEntity<Person> getPersonById(String id) {
-
-        RestTemplate template = new RestTemplate();
-        System.out.printf("url is:"+url+id);
         //UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance().host("localhost").port(8081).path(id);
-        ResponseEntity<Person> response = template.exchange(url+id, HttpMethod.GET, null, Person.class);
-        return response;
+        return template.exchange(url + id, HttpMethod.GET, null, Person.class);
     }
 
     public ResponseEntity<String> addPerson(Person person) {
 
-        RestTemplate template = new RestTemplate();
         HttpEntity<String> httpEntity = null;
 
         HttpHeaders headers = new HttpHeaders();
@@ -46,15 +38,11 @@ public class NameService {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        ResponseEntity<String> response = template.exchange(url, HttpMethod.POST, httpEntity, String.class);
-
-        return response;
+        return template.exchange(url, HttpMethod.POST, httpEntity, String.class);
     }
 
     public ResponseEntity<String> updatePerson(int id, Person person) {
 
-        RestTemplate template = new RestTemplate();
         HttpEntity<String> httpEntity = null;
 
         HttpHeaders headers = new HttpHeaders();
@@ -65,13 +53,11 @@ public class NameService {
             ex.printStackTrace();
         }
 
-        ResponseEntity<String> response = template.exchange(url+id, HttpMethod.PUT, httpEntity, String.class);
-        return response;
+        return template.exchange(url + id, HttpMethod.PUT, httpEntity, String.class);
     }
 
     public ResponseEntity<String> deletePerson(int id) {
 
-        RestTemplate template = new RestTemplate();
         HttpEntity<String> httpEntity = null;
 
         HttpHeaders headers = new HttpHeaders();
@@ -82,7 +68,6 @@ public class NameService {
             ex.printStackTrace();
         }
 
-        ResponseEntity<String> response = template.exchange(url+id, HttpMethod.DELETE, httpEntity, String.class);
-        return response;
+        return template.exchange(url + id, HttpMethod.DELETE, httpEntity, String.class);
     }
 }
