@@ -1,7 +1,10 @@
 package com.mikesapp.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mikesapp.exception.NoConnectionException;
 import com.mikesapp.model.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -9,17 +12,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.http.HttpClient;
+
 @Service
 public class NameService {
 
     private String url = "http://localhost:8081/";
 
+    NoConnectionException noConnectionException;
+
+    private static final Logger logger = LoggerFactory.getLogger(HttpClient.class);
+
     private final ObjectMapper objectMapper = new ObjectMapper();
     private RestTemplate template = new RestTemplate();
 
     public ResponseEntity<String> getPersonList() {
-
         return template.exchange(url, HttpMethod.GET, null, String.class);
+
     }
 
     public ResponseEntity<Person> getPersonById(String id) {
@@ -38,7 +47,9 @@ public class NameService {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return template.exchange(url, HttpMethod.POST, httpEntity, String.class);
+        ResponseEntity<String> response = template.exchange(url, HttpMethod.POST, httpEntity, String.class);
+
+        return response;
     }
 
     public ResponseEntity<String> updatePerson(int id, Person person) {
